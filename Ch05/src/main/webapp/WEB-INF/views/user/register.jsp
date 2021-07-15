@@ -9,7 +9,7 @@
 	<a href="/ch05/user/list">사용자 목록</a>
 	
 	<h4>사용자 등록</h4>
-	<form action="/Ch08/user/register.do" method="post">
+	<form action="/ch05/user/register" method="post">
 		<table border="1">
 			<tr>
 				<td>아이디</td>

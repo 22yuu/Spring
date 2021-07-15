@@ -6,18 +6,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MemberController {
 	
-	@GetMapping("member/list")
+	@GetMapping("/member/list")
 	public String list() {
-		return "member/list";
+		return "/member/list";
 	}
 	
-	@GetMapping("member/modify")
+	@GetMapping("/member/modify")
 	public String modify() {
-		return "member/modify";
+		return "/member/modify";
 	}
 	
-	@GetMapping("member/register")
+	@GetMapping("/member/register")
 	public String register() {
-		return "member/register";
+		return "/member/register";
 	}
 }

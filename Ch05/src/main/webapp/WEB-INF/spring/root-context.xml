@@ -7,7 +7,7 @@
 	
 	<!-- 데이터베이스 설정 -->
 	<bean id="basicDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="com.mysql.jdbc.driver"></property>
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" 			 value="jdbc:mysql://54.180.160.240/22jinuu"></property>
 		<property name="username" 		 value="22jinuu"></property>
 		<property name="password" 		 value="1234"></property>
@@ -16,7 +16,7 @@
 	<!-- Mybatis 설정 -->
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="basicDataSource"></property>
-		<property name="configLocation" ref="classpath:mybatis-context.xml"></property>
+		<property name="configLocation" value="classpath:mybatis-context.xml"></property>
 	</bean>
 	
 	<!-- Mybatis Spring 설정 -->
