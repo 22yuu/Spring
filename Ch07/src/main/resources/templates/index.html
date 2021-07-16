@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+	<h3>[[${title}]]</h3>
+	<h3 th:text="${hello}">제목</h3>
+	
+	<h4>타임리프 if</h4>
+	<p>
+		<a href="#" th:if="${user}">[[${user.name}]]</a> <!-- user객체가 null이 아니면 -->
+		<a href="#" th:unless="${user}">user가 없습니다.</a>
+	</p>
+	
+	<h4>타임리프 for</h4>
+	<table border=1>
+		<tr th:each="user:${users}">
+			<td th:text="${user.uid}">hong</td>
+			<td th:text="${user.name}">홍길동</td>
+			<td th:text="${user.hp}">010-1234-1234</td>
+			<td th:text="${user.age}">21</td>
+		</tr>
+	</table>
+
+</body>
+</html>
