@@ -23,6 +23,10 @@
 			<td th:text="${user.age}">21</td>
 		</tr>
 	</table>
+	
+	<h4>타임리프 링크</h4>
+	<a th:href="@{/include}">타임리프 인클루드 실습</a> 
+	<!-- /Ch07/include 타임리프를 사용하게 되면 @{/include}처럼 Context root를 신경 안써도 된다. -->
 
 </body>
 </html>
