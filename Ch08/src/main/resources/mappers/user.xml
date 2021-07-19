@@ -6,4 +6,26 @@
 	<insert id="INSERT_USER">
 		INSERT INTO `USER1` VALUES (#{uid}, #{name}, #{hp}, #{age});
 	</insert>
+	
+	<select id="selectUsers" resultType="kr.co.ch08.vo.UserVo">
+		SELECT * FROM `USER1`;
+	</select>
+	
+	<select id="selectUser" resultType="kr.co.ch08.vo.UserVo">
+		SELECT * FROM `USER1` WHERE `uid`=#{uid};
+	</select>
+
+	<update id="updateUser">
+		UPDATE `USER1` SET
+			`name`=#{name},
+			`hp`=#{hp},
+			`age`=#{age}
+		WHERE
+			`uid`=#{uid};
+	</update>
+		
+	<delete id="deleteUser">
+		DELETE FROM `USER1` WHERE `uid`= #{uid};
+	</delete>
+	
 </mapper>
