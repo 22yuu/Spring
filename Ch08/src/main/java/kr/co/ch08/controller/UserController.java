@@ -22,7 +22,8 @@ public class UserController {
 		
 		List<UserVo> users = userService.selectUsers();
 		
-		model.addAttribute(users);
+		model.addAttribute("users", users);
+		
 		return "/user/list";
 	}
 	
@@ -33,29 +34,31 @@ public class UserController {
 	
 	@PostMapping("/user/register")
 	public String register(UserVo vo) {
+		
 		userService.insertUser(vo);
-		return "redirect:/user/list";
+		
+		return "/user/register";
 	}
 	
 	@GetMapping("/user/modify")
 	public String modify(String uid, Model model) {
+		
 		UserVo user = userService.selectUser(uid);
 		model.addAttribute("user", user);
-		
 		return "/user/modify";
 	}
 	
 	@PostMapping("/user/modify")
 	public String modify(UserVo vo) {
+		
 		userService.updateUser(vo);
+		
 		return "redirect:/user/list";
 	}
 	
 	@GetMapping("/user/delete")
 	public String delete(String uid) {
-		
 		userService.deleteUser(uid);
-		
 		return "redirect:/user/list";
 	}
 }

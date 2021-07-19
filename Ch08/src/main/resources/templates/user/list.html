@@ -5,7 +5,7 @@
 	<title>list</title>
 </head>
 <body>
-	<a href="/ch05/user/register">사용자등록</a>
+	<a href="@{/user/register}">사용자등록</a>
 	
 	<h4>직원목록</h4>
 	<table border="1"> 
@@ -23,8 +23,8 @@
 			<td>[[${user.hp}]]</td>
 			<td>[[${user.age}]]</td>
 			<td>
-				<a href="@{/user/modify(uid=${user.uid)}">수정</a>
-				<a href="@{/user/delete(uid=${user.uid)}">삭제</a>
+				<a th:href="@{/user/modify(uid=${user.uid})}">수정</a>
+				<a th:href="@{/user/delete(uid=${user.uid})}">삭제</a>
 			</td>
 		</tr>
 	</table>

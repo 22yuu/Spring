@@ -10,28 +10,28 @@ import kr.co.ch08.vo.UserVo;
 
 @Service
 public class UserService {
-
-	@Autowired
-	private UserDao dao;
 	
+	@Autowired
+	private UserDao userDao;
+
 	public void insertUser(UserVo vo) {
-		dao.insertUser(vo);
-	}
+		userDao.insertUser(vo);
+	};
 	
 	public List<UserVo> selectUsers() {
-		return dao.selectUsers();
-	}
+		return userDao.selectUsers(); 
+	};
 	
 	public UserVo selectUser(String uid) {
-		return dao.selectUser(uid);
-	}
+		return userDao.selectUser(uid);
+	};
 	
 	public void updateUser(UserVo vo) {
-		dao.updateUser(vo);
-	}
+		userDao.updateUser(vo);
+	};
 	
 	public void deleteUser(String uid) {
-		dao.deleteUser(uid);
-	}
+		userDao.deleteUser(uid);
+	};
 	
 }

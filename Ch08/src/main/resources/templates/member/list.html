@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>list</title>
+	<title>Insert title here</title>
 </head>
 <body>
-	<a href="/ch05/member/register">직원등록</a>
+	<a th:href="@{/member/register}">직원등록</a>
 	
 	<h4>직원목록</h4>
 	<table border="1"> 
@@ -19,21 +19,16 @@
 			<th>관리</th>
 		</tr>
 		
-		<c:forEach var="member" items="${members}">
 		<tr>
 			<td>${member.uid}</td>
 			<td>${member.name}</td>
 			<td>${member.hp}</td>
 			<td>${member.pos}</td>
 			<td>${member.dep}</td>
-			<td>${fn:substring(member.rdate, 0, 10)}</td>
 			<td>
-				<a href="/ch05/member/modify?uid=${member.uid}">수정</a>
-				<a href="/ch05/member/delete?uid=${member.uid}">삭제</a>
+
 			</td>
 		</tr>
-		</c:forEach>
-			
 	</table>
 </body>
 </html>
