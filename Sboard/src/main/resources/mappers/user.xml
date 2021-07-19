@@ -15,4 +15,8 @@
 	<update id="updateUser"></update>
 	
 	<delete id="deleteUser"></delete>
+	
+	<select id="selectTerms" resultType="kr.co.sboard.vo.TermsVo">
+		SELECT * FROM `JBOARD_TERMS`;
+	</select>
 </mapper>

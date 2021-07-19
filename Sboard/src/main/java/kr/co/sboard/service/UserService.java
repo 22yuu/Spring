@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.sboard.dao.UserDao;
 import kr.co.sboard.vo.MemberVo;
+import kr.co.sboard.vo.TermsVo;
 
 @Service
 public class UserService {
@@ -15,7 +16,7 @@ public class UserService {
 	private UserDao userDao;
 	
 	public void insertUser(MemberVo vo) {
-		
+		userDao.insertUser(vo);
 	};
 	
 	public List<MemberVo> selectUsers(){
@@ -27,10 +28,14 @@ public class UserService {
 	};
 	
 	public void updateUser(String uid) {
-		
+		userDao.updateUser(uid);
 	};
 	
 	public void deleteUser(String uid) {
-		
+		userDao.deleteUser(uid);
+	};
+	
+	public TermsVo selectTerms() {
+		return userDao.selectTerms();
 	};
 }

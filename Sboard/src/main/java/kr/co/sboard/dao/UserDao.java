@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import kr.co.sboard.vo.MemberVo;
+import kr.co.sboard.vo.TermsVo;
 
 @Repository
 public interface UserDao {
@@ -14,4 +15,5 @@ public interface UserDao {
 	public MemberVo selectUser(MemberVo vo);
 	public void updateUser(String uid);
 	public void deleteUser(String uid);
+	public TermsVo selectTerms();
 }
