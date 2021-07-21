@@ -1,29 +1,51 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>케이마켓::관리자</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://kit.fontawesome.com/20962f3e4b.js" crossorigin="anonymous"></script>    
-    <script src="../js/gnb.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="../css/admin.css">
-</head>
-<body>
-    <div id="admin-wrapper">
-        <header>
-            <div>
-                <a href="../index.html" class="logo"><img src="../img/admin_logo.png" alt="admin_logo"/></a>
-                <p>
-                    <span>홍길동님 반갑습니다.</span>
-                    <a href="#">HOME |</a>
-                    <a href="#">로그아웃 |</a>
-                    <a href="#">고객센터</a>
-                </p>
-            </div>
-        </header>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	
+	var urlCate1 = '/Kmarket/admin/product/getCate1'
+	var urlCate2 = '/Kmarket/admin/product/getCate2'
+	
+	$(function(){
+		
+		var select1 = $('select[name=category1]');
+		var select2 = $('select[name=category2]');
+		
+		// 1차 상품 카테고리
+		$.get(urlCate1, function(result){ // datatype json
+			//success 
+			
+			$.each(result, function(i, data){
+				select1.append("<option value='" +data.code1+"'>"+data.title+"</option>")
+			});
+			
+		});
+		
+		// 1차 상품 카테고리 선택하면 2차 상품 카테고리 생성
+		select1.change(function(){
+			
+			var cate1 = $(this).val();
+			var param = {'cate1' : cate1};
+			//alert(cate1);
+			
+			$.get(urlCate2, param, function(result){ // datatype json
+				//success
+				
+				select2.empty();
+				select2.append("<option value='0'>2차 분류 선택</option>");
+				$.each(result, function(i, data){
+					
+					select2.append("<option value='" +data.code2+"'>"+data.title+"</option>")
+				});
+				
+			});
+		});
+		
+		
+		
+	});
+
+</script>
+<th:block th:include="@{admin/_header.html}"/>
         <main>
             <aside>
                 <!-- Global Navigation Bar -->
@@ -99,11 +121,7 @@
                                     <td>1차 분류</td>
                                     <td>
                                         <select name="category1">
-                                            <option value="cate0">1차 분류 선택</option>
-                                            <option value="cate11">패션·의류·뷰티</option>
-                                            <option value="cate12">가전·디지털</option>
-                                            <option value="cate13">식품·생필품</option>
-                                            <option value="cate14">홈·문구·취미</option>                                                
+                                            <option value="0">1차 분류 선택</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -112,10 +130,6 @@
                                     <td>
                                         <select name="category2">
                                             <option value="cate0">2차 분류 선택</option>
-                                            <option value="cate21">남성의류</option>
-                                            <option value="cate22">여성의류</option>
-                                            <option value="cate23">잡화</option>
-                                            <option value="cate24">뷰티</option>                                                
                                         </select>
                                     </td>
                                 </tr>
@@ -285,11 +299,5 @@
                 <!-- 상품등록 컨텐츠 끝 -->
             </section>
         </main>
-        <footer>
-            <div>
-                <p>Copyright ©kmarket.co.kr All rights reserved. KMARKET ADMINISTRATOR Version 5.4.1.2</p>
-            </div>
-        </footer>
-    </div>    
-</body>
+<th:block th:include="@{admin/_footer.html}"/>
 </html>
