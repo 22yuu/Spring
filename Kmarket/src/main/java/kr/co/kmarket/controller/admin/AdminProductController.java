@@ -2,14 +2,18 @@ package kr.co.kmarket.controller.admin;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.kmarket.service.admin.AdminProductService;
 import kr.co.kmarket.vo.Cate1Vo;
 import kr.co.kmarket.vo.Cate2Vo;
+import kr.co.kmarket.vo.ProductVo;
 
 @Controller
 public class AdminProductController {
@@ -25,6 +29,24 @@ public class AdminProductController {
 	@GetMapping("/admin/product/register")
 	public String register() {
 		return "/admin/product/register";
+	}
+	
+	@PostMapping("/admin/product/register")
+	public String register(ProductVo vo, HttpServletRequest req) {
+		
+		String ip = req.getRemoteAddr();
+		vo.setIp(ip);
+		System.out.println(ip);
+		
+		// 첨부파일 업로드
+		ProductVo pvo = service.uploadThumb(vo);
+		
+		System.out.println(pvo.toString());
+		
+		// 상품정보 테이블 저장
+		service.insertProduct(pvo);
+		
+		return "redirect:/admin/product/register";
 	}
 	
 	// ResponseBody 어노테이션을 사용하면 Json데이터로 리턴해줌
