@@ -33,7 +33,7 @@ public class ProductVo {
 	private String bizClass;
 	private String origin;
 	private String ip;
-	private int rdate;
+	private String rdate;
 	private int etc1;
 	private int etc2;
 	private String etc3;
