@@ -1,9 +1,13 @@
 package kr.co.kmarket.dao;
 
-public class MainDao {
+import java.util.List;
 
-	public MainDao() {
-		// TODO Auto-generated constructor stub
-	}
+import org.springframework.stereotype.Repository;
 
+import kr.co.kmarket.vo.CategoriesVo;
+
+@Repository
+public interface MainDao {
+	
+	public List<CategoriesVo> selectCategories();
 }

@@ -2,51 +2,26 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.kmarket.dao.admin.AdminProductDao">
+<mapper namespace="kr.co.kmarket.dao.MainDao">
 	
-	<insert id="insertProduct">
-		INSERT INTO `km_product` SET
-			`cate1`		= #{cate1},
-			`cate2`		= #{cate2},
-			`name`		= #{name},
-			`descript`	= #{descript},
-			`company`	= #{company},
-			`seller`	= #{seller},
-			`price`		= #{price},
-			`discount`	= #{discount},
-			`point`		= #{point},
-			`stock`		= #{stock},
-			`delivery`	= #{delivery},
-			`thumb1`	= #{thumb1},
-			`thumb2`	= #{thumb2},
-			`thumb3`	= #{thumb3},
-			`detail`	= #{detail},
-			`status`	= #{status},
-			`dutyFree`	= #{dutyFree},
-			`receipt`	= #{receipt},
-			`bizClass`	= #{bizClass},
-			`origin`	= #{origin},
-			`ip`		= #{ip},
-			`rdate`		= NOW();
-	</insert>
+	<resultMap id="categoriesMap" type="kr.co.kmarket.vo.CategoriesVo">
+		<result property="code1" column="code1" />
+		<result property="title" column="tit1" />
+		
+		<collection property="cate2List" ofType="kr.co.kmarket.vo.Cate2Vo" >
+			<result property="code1" column="code1"/>
+			<result property="code2" column="code2"/>
+			<result property="title" column="tit2"/>
+		</collection>
+		
+	</resultMap>
 	
-	<select id="selectProducts" resultType="kr.co.kmarket.vo.ProductVo"></select>
-	
-	<select id="selectProduct" resultType="kr.co.kmarket.vo.ProductVo"></select>
-	
-	<update id="updateProduct"></update>
-	
-	<delete id="deleteProduct"></delete>
-	
-	
-	<select id="selectCate1" resultType="kr.co.kmarket.vo.Cate1Vo">
-		SELECT * FROM `km_cate1`;
+	<select id="selectCategories" resultMap="categoriesMap">
+		SELECT c2.code1, c2.code2, c1.title AS tit1, c2.title AS tit2  
+		FROM `km_cate1` AS c1
+		JOIN `km_cate2` AS c2
+		ON c1.code1 = c2.code1
+		ORDER BY c2.code1, c2.code2;
 	</select>
-	
-	<select id="selectCate2" resultType="kr.co.kmarket.vo.Cate2Vo">
-		SELECT * FROM `km_cate2` WHERE `code1`=#{cate1} ORDER BY `seq`;
-	</select>
-	
-	
 	
 </mapper>
