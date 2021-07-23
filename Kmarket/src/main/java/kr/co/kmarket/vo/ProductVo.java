@@ -39,14 +39,14 @@ public class ProductVo {
 	private String etc3;
 	private String etc4;
 	private String etc5;
-
+	
 	
 	//추가 필드
 	private MultipartFile file1;
 	private MultipartFile file2;
 	private MultipartFile file3;
 	private MultipartFile file4;
-	
+	private int salePrice;
 	
 	
 }

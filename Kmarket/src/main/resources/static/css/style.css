@@ -435,7 +435,10 @@ main > section > .recommend {}
 main > section > .new {}
 main > section > .discount {}
 
-
+main img[alt=imgLoading] {
+	display: block;
+	margin: 0 auto;
+}
 
 /* 푸터영역 */
 footer {
