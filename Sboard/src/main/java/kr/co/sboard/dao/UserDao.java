@@ -16,4 +16,10 @@ public interface UserDao {
 	public void updateUser(String uid);
 	public void deleteUser(String uid);
 	public TermsVo selectTerms();
+	
+	// 회원가입 체크
+	public int selectMemberCount(String uid); // 아이디 중복 체크
+	public int selectMemberNick(String nick); // 아이디 중복 체크
+	public int selectMemberEmail(String email); // 아이디 중복 체크
+	public int selectMemberHp(String hp); // 아이디 중복 체크
 }

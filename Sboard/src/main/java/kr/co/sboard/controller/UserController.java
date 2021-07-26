@@ -1,5 +1,8 @@
 package kr.co.sboard.controller;
 
+import java.net.http.HttpRequest;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +63,16 @@ public class UserController {
 	@GetMapping("/user/register")
 	public String register() {
 		return "/user/register";
+	}
+	
+	@PostMapping("/user/register")
+	public String register(HttpServletRequest req, MemberVo vo) {
+
+		String regip = req.getRemoteAddr();
+		vo.setRegip(regip);
+		
+		userService.insertUser(vo);
+		return "redirect:/user/login";
 	}
 	
 	@GetMapping("/user/terms")
