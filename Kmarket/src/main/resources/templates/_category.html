@@ -29,7 +29,7 @@
 				
 				
 				$.each(data.cate2List, function(j, vo){
-					$('.category ol').eq(i).append("<li><a href='#'>"+vo.title+"</a></li>") 
+					$('.category ol').eq(i).append("<li><a href='/Kmarket/shop/list?cate1="+vo.code1+"&cate2="+vo.code2+"'>"+vo.title+"</a></li>") 
 				});
 				
 			});
