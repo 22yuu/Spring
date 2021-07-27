@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.kmarket.dao.ShopDao;
+import kr.co.kmarket.vo.CartVo;
 import kr.co.kmarket.vo.ProductVo;
 
 @Service
@@ -27,8 +28,8 @@ public class ShopService {
 		return dao.selectProduct(code);
 	};
 	
-	public List<ProductVo> selectProducts(int cate1, int cate2) {
-		return dao.selectProducts(cate1, cate2);
+	public List<ProductVo> selectProducts(int cate1, int cate2, String sort) {
+		return dao.selectProducts(cate1, cate2, sort);
 	};
 	
 	public void updateProduct(int code) {
@@ -39,4 +40,8 @@ public class ShopService {
 		
 	};
 	
+	
+	public void insertCart(CartVo vo) {
+		dao.insertCart(vo);
+	}
 }
