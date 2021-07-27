@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:inline="javascript">
 	$(function() {
 		
@@ -25,8 +26,16 @@
 				type: 'post',
 				data: jsonData,
 				dataType: 'json',
-				success: function(result){
-					alert('성공');
+				success: function(data){
+					if(data.result == 1) {
+						alert('장바구니에 상품을 추가했습니다.');
+						
+					} else if(data.result == 2){
+						alert('먼저 로그인을 하셔야 합니다.');
+						
+					} else if(data.result == 3) {
+						alert('이미 장바구니에 추가된 상품입니다.');
+					}
 					
 				}
 			});

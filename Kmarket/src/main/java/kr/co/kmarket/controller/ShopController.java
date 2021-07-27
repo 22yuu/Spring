@@ -38,12 +38,25 @@ public class ShopController {
 		
 		MemberVo member = (MemberVo)sess.getAttribute("sessMember");
 		
+		
 		int result = 0;
 		
 		if(member != null ) { // 로그인을 했으면
-			vo.setUid(member.getUid());
-			service.insertCart(vo);
-			result = 1;
+
+			String uid = member.getUid();
+			int code = vo.getCode();
+			
+			vo.setUid(uid);
+			
+			int count = service.selectCountCart(code, uid);
+			
+			if(count < 1) {
+				service.insertCart(vo);
+				result = 1;
+			} else {
+				// 이미 상품이 장바구니에 있을 경우
+				result = 3;
+			}
 		} else {
 			//로그인을 하지 않음
 			result = 2;

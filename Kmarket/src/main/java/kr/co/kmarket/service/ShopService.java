@@ -41,6 +41,10 @@ public class ShopService {
 	};
 	
 	
+	public int selectCountCart(int code, String uid) {
+		return dao.selectCountCart(code, uid);
+	}
+	
 	public void insertCart(CartVo vo) {
 		dao.insertCart(vo);
 	}

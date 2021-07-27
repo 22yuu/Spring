@@ -1,9 +1,24 @@
 package kr.co.kmarket.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.co.kmarket.dao.MemberDao;
+import kr.co.kmarket.vo.MemberVo;
+
+
+@Service
 public class MemberService {
 
-	public MemberService() {
-		// TODO Auto-generated constructor stub
+	@Autowired
+	private MemberDao dao;
+	
+	public MemberVo selectMember(String uid, String pass) {
+		return dao.selectMember(uid, pass);
 	}
 
+	public void insertMember(MemberVo vo) {
+		dao.insertMember(vo);
+	}
+	
 }
