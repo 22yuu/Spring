@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import kr.co.kmarket.service.ShopService;
 import kr.co.kmarket.vo.CartVo;
 import kr.co.kmarket.vo.MemberVo;
+import kr.co.kmarket.vo.OrderVo;
 import kr.co.kmarket.vo.ProductVo;
 
 @Controller
@@ -96,9 +97,44 @@ public class ShopController {
 		return "/shop/order";
 	}
 	
+	@ResponseBody
+	@PostMapping("/shop/order")
+	public String order(OrderVo vo) {
+		
+		service.insertOrder(vo);
+		int orderId = vo.getOrderId();
+		
+		System.out.println(vo);
+		
+		for(int code : vo.getCodes()) {
+			service.insertOrderDetail(orderId, code);
+		}
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("ordeId", orderId);
+		
+		return new Gson().toJson(json);
+	}
+	
 	@GetMapping("/shop/order-complete")
 	public String orderComplete() {
 		return "/shop/order-complete";
+	}
+	
+	@ResponseBody
+	@PostMapping("/shop/del")
+	public String delCart(String uid, int[] codes) {
+		
+		int size = codes.length;
+		
+		for(int i = 0; i < size; i++) {
+			service.deleteCart(uid, codes[i]);
+		}
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("uid", 1);
+		
+		return new Gson().toJson(json);
 	}
 	
 	@GetMapping("/shop/search")

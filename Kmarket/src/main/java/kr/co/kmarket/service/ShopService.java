@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.kmarket.dao.ShopDao;
 import kr.co.kmarket.vo.CartVo;
+import kr.co.kmarket.vo.OrderVo;
 import kr.co.kmarket.vo.ProductVo;
 
 @Service
@@ -52,5 +53,17 @@ public class ShopService {
 	
 	public List<CartVo> selectCart(String uid) {
 		return dao.selectCart(uid);
+	}
+	
+	public void insertOrder(OrderVo vo) {
+		dao.insertOrder(vo);
+	}
+	
+	public void insertOrderDetail(int orderId, int code) {
+		dao.insertOrderDetail(orderId, code);
+	}
+	
+	public void deleteCart(String uid, int code) {
+		dao.deleteCart(uid, code);
 	}
 }

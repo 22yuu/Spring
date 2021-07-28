@@ -41,8 +41,6 @@ public class MemberController {
 		
 		MemberVo membervo = service.selectMember(uid, pass);
 
-		System.out.println(uid + " " + pass);
-		
 		if(membervo != null) {
 			// 로그인 성공
 			sess.setAttribute("sessMember", membervo);

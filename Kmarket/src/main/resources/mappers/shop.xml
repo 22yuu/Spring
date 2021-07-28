@@ -66,5 +66,25 @@
 		ORDER BY `seq`	DESC;
 	</select>
 	
+	<insert id="insertOrder" useGeneratedKeys="true" keyProperty="orderId">
+		INSERT INTO `km_product_order` SET
+			`uid`=#{uid},
+			`count`=#{count},
+			`price`=#{price},
+			`discount`=#{discount},
+			`delivery`=#{delivery},
+			`point`=#{point},
+			`total`=#{total},
+			`rdate`=NOW();
+	</insert>
+	
+	<insert id="insertOrderDetail">
+		INSERT INTO `km_product_order_detail` (`orderId`, `code`) VALUES(#{orderId}, #{code})
+			
+	</insert>
+	
+	<delete id="deleteCart">
+		DELETE FROM `km_product_cart` WHERE `uid`=#{uid} AND `code`=#{code};
+	</delete>
 	
 </mapper>
