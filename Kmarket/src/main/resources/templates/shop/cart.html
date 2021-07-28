@@ -1,5 +1,82 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="@{_header.html}"/>
+<script th:inline="javascript">
+
+	
+	// 장바구니 집계 작업
+	aggrProduct();
+	
+	function aggrProduct() {
+		$(function(){
+			
+			var checkedProduct = $('input[name=checkProduct]:checked').parent().parent();
+			
+			// 상품수 집계
+			var tdCounts = checkedProduct.find('.count');
+			var totCount = 0;
+			
+			$.each(tdCounts, function(){
+				var count = parseInt($(this).text());
+				totCount += count;
+			});
+			
+			$('.info tr:nth-child(1) > td:nth-child(2)').text(totCount);
+			
+			// 판매가 집계
+			
+			// 할인금액 집계
+			
+			// 배송비 집계
+			
+			// 포인트 집계
+			
+			// 전체 주문 금액
+			
+		});
+	}
+	
+
+	// 상품 체크박스
+	$(function() {
+		
+		var checkAll = $('input[name=all]');
+		var checkProduct = $('input[name=checkProduct]');
+		
+		// 전체 체크박스
+		checkAll.change(function() {
+			if($(this).is(':checked')) {
+				// 전체 상품 체크
+				checkProduct.prop('checked', true);
+			} else {
+				// 전체 상품 체크해제
+				checkProduct.prop('checked', false);
+			}
+			
+			aggrProduct();
+			
+		});
+		
+		// 개별 체크박스
+		checkProduct.change(function() {
+			aggrProduct();
+		});
+		
+	});
+	
+	// 상품 삭제하기
+	$(function(){
+		
+	});
+	
+	// 상품 주문하기
+	$(function(){
+		
+	});
+	
+
+</script>
+
+
 <main>
 	<!-- 카테고리/베스트 상품 영역 -->
 	<aside>
@@ -22,7 +99,7 @@
 				<table>
 					<thead>
 						<tr>
-							<th><input type="checkbox" name="all"></th>
+							<th><input type="checkbox" name="all" checked></th>
 							<th>상품명</th>
 							<th>총수량</th>
 							<th>판매가</th>
@@ -37,7 +114,7 @@
 							<td colspan="7">장바구니에 상품이 없습니다.</td>
 						</tr>
 						<tr th:each="cart:${carts}">
-							<td><input type="checkbox" name=""></td>
+							<td><input type="checkbox" name="checkProduct" checked></td>
 							<td>
 								<article>
 									<a href="#"><img th:src="@{/thumb/{c1}/{c2}/{img}(c1=${cart.cate1}, c2=${cart.cate2}, img=${cart.thumb1})}" alt=""></a>
@@ -94,10 +171,6 @@
 			<input type="button" name="" value="주문하기">
 
 		</div>
-
-
-
-
 	</section>
 </main>
 <th:block th:include="@{_footer.html}"/>
