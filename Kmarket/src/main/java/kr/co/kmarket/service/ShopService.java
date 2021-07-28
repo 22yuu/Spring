@@ -48,4 +48,9 @@ public class ShopService {
 	public void insertCart(CartVo vo) {
 		dao.insertCart(vo);
 	}
+	
+	
+	public List<CartVo> selectCart(String uid) {
+		return dao.selectCart(uid);
+	}
 }

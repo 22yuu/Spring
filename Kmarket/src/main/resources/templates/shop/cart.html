@@ -26,6 +26,7 @@
 							<th>상품명</th>
 							<th>총수량</th>
 							<th>판매가</th>
+							<th>할인</th>
 							<th>포인트</th>
 							<th>배송비</th>
 							<th>소계</th>
@@ -35,24 +36,26 @@
 						<tr class="empty">
 							<td colspan="7">장바구니에 상품이 없습니다.</td>
 						</tr>
-						<tr>
+						<tr th:each="cart:${carts}">
 							<td><input type="checkbox" name=""></td>
 							<td>
 								<article>
-									<a href="#"><img src="../img/thumb-sample-t2.jpg" alt=""></a>
+									<a href="#"><img th:src="@{/thumb/{c1}/{c2}/{img}(c1=${cart.cate1}, c2=${cart.cate2}, img=${cart.thumb1})}" alt=""></a>
 									<div>
 										<h2>
-											<a href="#">TH-블락체크 셔츠-그레이2 [면세]</a>
+											<a href="#">[[${cart.name}]]</a>
 										</h2>
-										<p>SIZE:M / COLOR:블루 1개</p>
+										<p></p>
 									</div>
 								</article>
 							</td>
-							<td>1</td>
-							<td>27,000</td>
-							<td>270</td>
-							<td>무료배송</td>
-							<td>27,000</td>
+							<td class="count">[[${cart.count}]]</td>
+							<td class="price">[[${#numbers.formatInteger(cart.price, 3, 'COMMA')}]]</td>
+							<td class="discount">[[${cart.discount}]]%</td>
+							<td class="point">[[${cart.point}]]</td>
+							<td class="delivery" th:if="${cart.delivery} == 0">무료배송</td>
+							<td class="delivery" th:unless="${cart.delivery} == 0">[[${#numbers.formatInteger(cart.delivery, 3, 'COMMA')}]]원<</td>
+							<td class="total">[[${#numbers.formatInteger(cart.total, 3, 'COMMA')}]]</td>
 						</tr>
 					</tbody>
 				</table>
