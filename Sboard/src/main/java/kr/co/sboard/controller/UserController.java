@@ -26,7 +26,7 @@ public class UserController {
 		MemberVo member = (MemberVo)sess.getAttribute("sessMember");
 		if(member == null) {
 			// 로그인을 안했으면
-			return "forward:/user/login";	
+			return "forward:/user/login";
 		}else {
 			// 로그인을 했으면
 			return "forward:/list";

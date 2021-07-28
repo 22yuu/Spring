@@ -9,19 +9,19 @@
 	<a href="/ch05/member/list">직원목록</a>
 	
 	<h4>직원등록</h4>
-	<form action="/ch05/member/register.do" method="post">
+	<form action="/ch05/member/modify" method="post">
 		<table border="1">
 			<tr>
 				<td>아이디</td>
-				<td><input type="text" name="uid"/></td>
+				<td><input type="text" name="uid" readonly value="${member.uid}"/></td>
 			</tr>
 			<tr>
 				<td>이름</td>
-				<td><input type="text" name="name"/></td>
+				<td><input type="text" name="name" value="${member.name}"/></td>
 			</tr>
 			<tr>
 				<td>휴대폰</td>
-				<td><input type="tel" name="hp"/></td>
+				<td><input type="tel" name="hp" value="${member.hp}"/></td>
 			</tr>
 			<tr>
 				<td>직급</td>

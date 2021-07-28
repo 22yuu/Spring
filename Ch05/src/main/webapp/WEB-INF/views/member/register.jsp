@@ -15,7 +15,7 @@
 	<a href="/ch05/member/list">직원목록</a>
 	
 	<h4>직원등록</h4>
-	<form action="/Ch08/member/register.do" method="post">
+	<form action="/ch05/member/register" method="post">
 		<table border="1">
 			<tr>
 				<td>아이디</td>
