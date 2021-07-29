@@ -9,4 +9,6 @@ public interface MemberDao {
 
 	public MemberVo selectMember(String uid, String pass);
 	public void insertMember(MemberVo vo);
+	public void updateMemberPointMinus(MemberVo vo);
+	public void updateMemberPointPlus(MemberVo vo);
 }

@@ -1,5 +1,78 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:include="@{_header.html}"/>
+
+<script th:inline="javascript">
+	
+	$(function(){
+		
+		// 포인트 할인적용
+		$('.btnPoint').click(function(){
+			
+			var pointField = $('input[name=point]');
+			var currentPoint = $('.currentPoint')
+			
+			var point = $('input[name=point]').val();
+			var cPoint = Number(currentPoint.text());
+			
+			
+			if(point == 0) {
+				alert('할인 적용 포인트를 입력해주세요.');
+			} else if(point > currentPoint) {
+				alert('포인트가 부족합니다.');
+				pointField.val(0);
+			} else {
+				
+				currentPoint.text(cPoint-point);
+				$('.pointDiscount').text(point.toLocaleString());
+				var finalPrice = Number($('.final').text().replace(/,/g, ''));
+				finalPrice -= point;
+				
+				$('.final').text(finalPrice.toLocaleString());
+			}
+		});
+		
+		
+		//최종 주문하기
+		$('input[name=finalOrder]').click(function() {
+			
+			var orderId 	= $('input[name=orderId]').val();
+			var orderer 	= $('input[name=orderer]').val();
+			var hp			= $('input[name=hp]').val();
+			var zip 		= $('input[name=zip]').val();
+			var addr1 		= $('input[name=addr1]').val();
+			var addr2 		= $('input[name=addr2]').val();
+			var payment 	= $('input[name=payment]').val();
+			var applyPoint  = $('.pointDiscount').text().replace(/,/g, '');
+			
+			var jsonData = {
+					
+					'orderId': orderId,
+					'orderer': orderer,
+					'hp': hp,
+					'zip': zip,
+					'addr1': addr1,
+					'addr2': addr2,
+					'payment': payment,
+					'applyPoint': applyPoint
+			};
+			
+			//console.log(jsonData)
+			
+			$.ajax({
+				url:'/Kmarket/shop/order-complete',
+				type:'post',
+				data:jsonData,
+				dataType:'json',
+				success: function(data) {
+					location.href='/Kmarket/shop/order-complete?orderId='+orderId;
+				}
+			})
+		});
+		
+		
+	});
+
+</script>
 <main>
 	<!-- 카테고리/베스트 상품 영역 -->
 	<aside>
@@ -25,6 +98,8 @@
 								<th>상품명</th>
 								<th>총수량</th>
 								<th>판매가</th>
+								<th>할인</th>
+								<th>포인트</th>
 								<th>배송비</th>
 								<th>소계</th>
 							</tr>
@@ -33,40 +108,26 @@
 							<tr class="empty">
 								<td colspan="7">장바구니에 상품이 없습니다.</td>
 							</tr>
-							<tr>
-								<td>
-									<article>
-										<a href="#"><img src="../img/thumb-sample-t2.jpg" alt=""></a>
-										<div>
-											<h2>
-												<a href="#">TH-블락체크 셔츠-그레이2 [면세]</a>
-											</h2>
-											<p>SIZE:M / COLOR:블루 1개</p>
-										</div>
-									</article>
-								</td>
-								<td>1</td>
-								<td>27,000</td>
-								<td>무료배송</td>
-								<td>27,000</td>
-							</tr>
-							<tr>
-								<td>
-									<article>
-										<a href="#"><img src="../img/thumb-sample-t1.jpg" alt=""></a>
-										<div>
-											<h2>
-												<a href="#">TH-블락체크 셔츠-그레이2 [면세]</a>
-											</h2>
-											<p>SIZE:M / COLOR:블루 1개</p>
-										</div>
-									</article>
-								</td>
-								<td>1</td>
-								<td>27,000</td>
-								<td>무료배송</td>
-								<td>27,000</td>
-							</tr>
+							<tr th:each="cart:${orders}">
+							<td>
+								<article>
+									<a href="#"><img th:src="@{/thumb/{c1}/{c2}/{img}(c1=${cart.cate1}, c2=${cart.cate2}, img=${cart.thumb1})}" alt=""></a>
+									<div>
+										<h2>
+											<a href="#">[[${cart.pName}]]</a>
+										</h2>
+										<p></p>
+									</div>
+								</article>
+							</td>
+							<td class="count">1</td>
+							<td class="price">[[${#numbers.formatInteger(cart.pPrice, 3, 'COMMA')}]]</td>
+							<td class="discount">[[${cart.pDiscount}]]%</td>
+							<td class="point">[[${cart.pPoint}]]</td>
+							<td class="delivery" th:if="${cart.pDelivery} == 0">무료배송</td>
+							<td class="delivery" th:unless="${cart.pDelivery} == 0">[[${#numbers.formatInteger(cart.pDelivery, 3, 'COMMA')}]]원<</td>
+							<td class="total">[[${#numbers.formatInteger(cart.pTotal, 3, 'COMMA')}]]</td>
+						</tr>
 						</tbody>
 					</table>
 				</div>
@@ -77,11 +138,11 @@
 						<table>
 							<tr>
 								<td>주문자</td>
-								<td><input type="text" name="orderer" /></td>
+								<td><input type="text" name="orderer" th:value="${memberVo.name}"/></td>
 							</tr>
 							<tr>
 								<td>휴대폰</td>
-								<td><input type="text" name="hp" /> <span>- 포함 입력</span></td>
+								<td><input type="text" name="hp" th:value="${memberVo.hp}"/> <span>- 포함 입력</span></td>
 							</tr>
 							<tr>
 								<td>우편번호</td>
@@ -104,10 +165,10 @@
 
 						<div>
 							<p>
-								현재 포인트 : <span>7200</span>점
+								현재 포인트 : <span class="currentPoint">[[${memberVo.point}]]</span>점
 							</p>
-							<label> <input type="text" name="point" />점 <input
-								type="button" value="적용" />
+							<label> <input type="text" name="point" value="0"/>점 
+							<input type="button" value="적용" class="btnPoint" />
 							</label> <span>포인트 5,000점 이상이면 현금처럼 사용 가능합니다.</span>
 						</div>
 					</article>
@@ -117,25 +178,24 @@
 						<div>
 							<span>신용카드</span>
 							<p>
-								<label><input type="radio" name="payment" value="type1" />신용카드
-									결제</label> <label><input type="radio" name="payment"
-									value="type2" />체크카드 결제</label>
+								<label><input type="radio" name="payment" value="1" />신용카드 결제</label>
+								<label><input type="radio" name="payment"
+									value="2" />체크카드 결제</label>
 							</p>
 						</div>
 						<div>
 							<span>계좌이체</span>
 							<p>
-								<label><input type="radio" name="payment" value="type3" />실시간
-									계좌이체</label> <label><input type="radio" name="payment"
-									value="type4" />무통장 입금</label>
+								<label><input type="radio" name="payment" value="3" />실시간 계좌이체</label>
+								<label><input type="radio" name="payment" value="4" />무통장 입금</label>
 							</p>
 						</div>
 						<div>
 							<span>기타</span>
 							<p>
-								<label><input type="radio" name="payment" value="type3" />휴대폰결제</label>
-								<label> <input type="radio" name="payment" value="type4" />카카오페이
-									<img src="../img/ico_kakaopay.gif" alt="카카오페이" />
+								<label><input type="radio" name="payment" value="5" />휴대폰결제</label>
+								<label> <input type="radio" name="payment" value="6" />카카오페이
+								<img src="../img/ico_kakaopay.gif" alt="카카오페이" />
 								</label>
 							</p>
 						</div>
@@ -154,35 +214,35 @@
 
 					<div class="info">
 						<h2>최종결제 정보</h2>
+						<input type="hidden" name="orderId" th:value="${infoData.orderId}">
 						<table border="0">
 							<tr>
 								<td>총</td>
-								<td>2 건</td>
+								<td>[[${infoData.count}]]</td>
 							</tr>
 							<tr>
 								<td>상품금액</td>
-								<td>27,000</td>
+								<td>[[${#numbers.formatInteger(infoData.price, 3, 'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<td>할인금액</td>
-								<td>-1,000</td>
+								<td>[[${#numbers.formatInteger(infoData.discount, 3, 'COMMA')}]]원</td>
 							</tr>
 							<tr>
 								<td>배송비</td>
-								<td>0</td>
+								<td>[[${#numbers.formatInteger(infoData.delivery, 0, 'COMMA')}]]</td>
 							</tr>
 							<tr>
 								<td>포인트 할인</td>
-								<td>-1000</td>
+								<td class="pointDiscount">0</td>
 							</tr>
 							<tr>
 								<td>전체주문금액</td>
-								<td>25,000</td>
+								<td class="final">[[${#numbers.formatInteger(infoData.total, 3, 'COMMA')}]]</td>
 							</tr>
 
 						</table>
-						<input type="button" name="" value="결제하기">
-
+						<input type="button" name="finalOrder" value="결제하기">
 					</div>
 				</section>
 			</form>

@@ -23,4 +23,17 @@
 			`ip` 	 = #{ip},
 			`rdate`  = NOW();
 	</insert>
+	
+	<update id="updateMemberPointMinus">
+		UPDATE `km_member`
+		SET	`point` = #{point} - #{applyPoint}
+		WHERE `uid` = #{uid};
+	</update>
+	
+	<update id="updateMemberPointPlus">
+		UPDATE `km_member`
+		SET	`point` = `point` + #{point}
+		WHERE `uid` = #{uid};
+	</update>
+	
 </mapper>

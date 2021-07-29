@@ -12,6 +12,7 @@ public class OrderVo {
 	private int discount;
 	private int delivery;
 	private int point;
+	private int applyPoint;
 	private int total;
 	private String orderer;
 	private String hp;
@@ -25,5 +26,15 @@ public class OrderVo {
 	
 	//추가 필드
 	private int[] codes;
+	
+	private int cate1;
+	private int cate2;
+	private String thumb1;
+	private String pName;
+	private int pPrice;
+	private int pDiscount;
+	private int pPoint;
+	private int pDelivery;
+	private int pTotal;
 	
 }

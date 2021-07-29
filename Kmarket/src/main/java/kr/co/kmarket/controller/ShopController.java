@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import kr.co.kmarket.service.MemberService;
 import kr.co.kmarket.service.ShopService;
 import kr.co.kmarket.vo.CartVo;
 import kr.co.kmarket.vo.MemberVo;
@@ -25,6 +26,9 @@ public class ShopController {
 	
 	@Autowired
 	private ShopService service;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping("/shop/cart")
 	public String cart(HttpSession sess, Model model) {
@@ -47,7 +51,6 @@ public class ShopController {
 	public String cart(CartVo vo, HttpSession sess) {
 		
 		MemberVo member = (MemberVo)sess.getAttribute("sessMember");
-		
 		
 		int result = 0;
 		
@@ -93,8 +96,22 @@ public class ShopController {
 	}
 	
 	@GetMapping("/shop/order")
-	public String order() {
-		return "/shop/order";
+	public String order(int orderId, Model model, HttpSession sess) {
+		
+		MemberVo member = (MemberVo)sess.getAttribute("sessMember");
+		
+		if(member == null) {
+			return "redirect:/member/login?success=105";
+		} else {
+			List<OrderVo> orders = service.selectOrders(orderId);
+			
+			System.out.println(orders);
+			model.addAttribute("orders", orders);
+			model.addAttribute("infoData", orders.get(0));
+			model.addAttribute("memberVo", member);
+			
+			return "/shop/order";
+		}
 	}
 	
 	@ResponseBody
@@ -104,14 +121,14 @@ public class ShopController {
 		service.insertOrder(vo);
 		int orderId = vo.getOrderId();
 		
-		System.out.println(vo);
-		
 		for(int code : vo.getCodes()) {
 			service.insertOrderDetail(orderId, code);
 		}
 		
 		JsonObject json = new JsonObject();
-		json.addProperty("ordeId", orderId);
+		json.addProperty("orderId", orderId);
+		
+		//System.out.println("orderId : " + orderId);
 		
 		return new Gson().toJson(json);
 	}
@@ -120,6 +137,27 @@ public class ShopController {
 	public String orderComplete() {
 		return "/shop/order-complete";
 	}
+	
+	@ResponseBody
+	@PostMapping("/shop/order-complete")
+	public String orderComplete(OrderVo vo) {
+		
+		System.out.println(vo.getApplyPoint());
+		System.out.println(vo.getZip());
+		System.out.println(vo.getAddr1());
+		System.out.println(vo.getAddr2());
+		int result = service.updateOrder(vo);
+		
+		// 멤버 업데이트
+		
+		
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("result", result);
+		
+		return new Gson().toJson(json);
+	}
+	
 	
 	@ResponseBody
 	@PostMapping("/shop/del")
