@@ -28,5 +28,6 @@ public interface ShopDao {
 	public void deleteCart(String uid, int code);
 	
 	public List<OrderVo> selectOrders(int orderId);
+	public OrderVo selectCompleteOrder(int orderId);
 	public int updateOrder(OrderVo vo);
 }

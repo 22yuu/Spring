@@ -134,20 +134,29 @@ public class ShopController {
 	}
 	
 	@GetMapping("/shop/order-complete")
-	public String orderComplete() {
-		return "/shop/order-complete";
+	public String orderComplete(int orderId, Model model, HttpSession sess) {
+		
+		MemberVo member = (MemberVo)sess.getAttribute("sessMember");
+		
+		if(member == null) {
+			return "redirect:/member/login?success=105";
+		} else {
+			List<OrderVo> orders = service.selectOrders(orderId);
+			
+			System.out.println(orders);
+			model.addAttribute("orders", orders);
+			model.addAttribute("infoData", orders.get(0));
+			model.addAttribute("memberVo", member);
+			
+			return "/shop/order-complete";
+		}
 	}
 	
 	@ResponseBody
 	@PostMapping("/shop/order-complete")
-	public String orderComplete(OrderVo vo) {
+	public String orderComplete(OrderVo vo, int orderId, Model model) {
 		
-		System.out.println(vo.getApplyPoint());
-		System.out.println(vo.getZip());
-		System.out.println(vo.getAddr1());
-		System.out.println(vo.getAddr2());
 		int result = service.updateOrder(vo);
-		
 		// 멤버 업데이트
 		
 		

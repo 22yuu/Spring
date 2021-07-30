@@ -107,6 +107,10 @@
 		WHERE a.`orderId` = ${orderId};
 	</select>
 	
+	<select id="selectCompleteOrder" resultType="kr.co.kmarket.vo.OrderVo">
+		SELECT * FROM `km_product_order` WHERE `orderId`=#{orderId};
+	</select>
+	
 	<update id="updateOrder">
 		UPDATE `km_product_order` SET
 			`applyPoint`=#{applyPoint},
